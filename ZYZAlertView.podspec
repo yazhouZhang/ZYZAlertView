@@ -15,13 +15,11 @@ Pod::Spec.new do |s|
 
   s.author             = { "yazhouZhang" => "1532226710@qq.com" }
 
-  s.ios.deployment_target = "7.0"
+  s.ios.deployment_target = "8.0"
 
   s.source       = { :git => "https://github.com/yazhouZhang/ZYZAlertView.git", :tag => "0.0.1" }
 
   s.source_files  = "ZYZAlertView/**/*.{h,m}"
-
-  s.resource  = "close.png"
 
   s.requires_arc = true
 
