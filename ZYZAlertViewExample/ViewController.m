@@ -40,6 +40,19 @@
     }];
     [alert show];
 }
+
+- (IBAction)customViewButton:(UIButton *)sender {
+    UIView *custom = [[[NSBundle mainBundle] loadNibNamed:@"CustomView" owner:self options:nil] lastObject];
+    ZYZAlertView *alert = [[ZYZAlertView alloc]initWithStyle:ZYZAlertViewStyleCustomView Title:@"" message:@"" customView:custom delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定"];
+    [alert setCancelBlock:^{
+        
+    }];
+    [alert setConfirmBlock:^{
+        
+    }];
+    [alert show];
+}
+
 - (IBAction)toastButton:(UIButton *)sender {
     ZYZToastView *toast = [[ZYZToastView alloc]initWithView:self.view message:@"toast" posY:100];
     [toast show];

@@ -13,6 +13,10 @@
 #define kContentLabelWidth      ScreenWidth - 80
 #define ZContentLabelWidth      ScreenWidth - 80 - 20
 #define ButtonWidth (ScreenWidth - 80)/2
+#define ButtonSureWidth (ScreenWidth - 80 - 120)/2
+#define ButtonSpace 40
+#define OneButtonWidth ScreenWidth - 80 - 160
+#define OneButtonSpace 80
 #define ZYZAlertLeavel  300
 
 static CGFloat kTransitionDuration = 0.3f;
@@ -382,7 +386,118 @@ static UIWindow *gMaskWindow = nil;
         }
         case ZYZAlertViewStyleCustomView:
         {
-        
+            self = [super initWithFrame:[UIScreen mainScreen].bounds];
+            if (self) {
+                [self initData];
+                
+                _delegate = delegate;
+                //content view
+                CGFloat titleHeight = 0.0f;
+                if (title.length > 0)
+                {
+                    titleHeight = 40.0f;
+                }
+                CGFloat bodyHeight = 0.0f;
+                if (message.length > 0)
+                {
+                    bodyHeight = [ZYZAlertView heightOfString:message withWidth:kContentLabelWidth]+30;
+                }
+                
+                CGFloat customViewHeight = 0.0f;
+                if (customView) {
+                    self.customView = customView;
+                    customViewHeight = customView.frame.size.height;
+                }
+                CGFloat buttonPartHeight = 35.0f;
+                
+                BOOL isNeedUserTextView = bodyHeight > 170;
+                bodyHeight = isNeedUserTextView?170:bodyHeight;
+                
+                CGFloat finalHeight = titleHeight+bodyHeight+customViewHeight+buttonPartHeight + 20;
+                self.contentView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+                self.contentView.layer.cornerRadius = 6.0;
+                CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height-20;
+                self.contentView.frame = CGRectMake(40, (screenHeight-finalHeight)/2.0, kContentLabelWidth, finalHeight);
+                UIView *alertMainView = [[UIView alloc] init];
+                alertMainView.frame = CGRectMake(0, 0, kContentLabelWidth, finalHeight);
+                alertMainView.backgroundColor = [UIColor whiteColor];
+                alertMainView.layer.cornerRadius = 6.0;
+                [self.contentView addSubview:alertMainView];
+                if (title.length > 0) {
+                    UIFont *titleFont = [UIFont boldSystemFontOfSize:19.0f];
+                    CGSize titleSize = [title sizeWithAttributes:@{NSFontAttributeName:titleFont}];
+                    self.titleLabel.text = title;
+                    self.titleLabel.font = titleFont;
+                    self.titleLabel.textColor = [UIColor colorWithRed:215/255.0 green:0/255.0 blue:15/255.0 alpha:1.0];
+                    self.titleLabel.adjustsFontSizeToFitWidth = YES;
+                    self.titleLabel.textAlignment = NSTextAlignmentCenter;
+                    self.titleLabel.frame = CGRectMake(0, 0, alertMainView.frame.size.width, titleHeight);
+                    [alertMainView addSubview:self.titleLabel];
+                }
+                //bodyLabel
+                if (message.length > 0) {
+                    if (isNeedUserTextView) {
+                        self.bodyTextView.text = message;
+                        self.bodyTextView.frame = CGRectMake(10, CGRectGetMaxY(self.titleLabel.frame) + 5, ZContentLabelWidth, bodyHeight);
+                        self.bodyTextView.textColor = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1.0];
+                        self.bodyTextView.font = [UIFont systemFontOfSize:15.0f];
+                        [alertMainView addSubview:self.bodyTextView];
+                    }else{
+                        self.bodyTextLabel.text = message;
+                        self.bodyTextLabel.frame = CGRectMake(10, CGRectGetMaxY(self.titleLabel.frame) + 5, ZContentLabelWidth, bodyHeight);
+                        self.bodyTextLabel.font = [UIFont systemFontOfSize:15.0f];
+                        self.bodyTextLabel.textColor = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1.0];
+                        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:message];;
+                        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+                        [paragraphStyle setLineSpacing:5];
+                        [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, message.length)];
+                        self.bodyTextLabel.attributedText = attributedString;
+                        [alertMainView addSubview:self.bodyTextLabel];
+                    }
+                }
+                CGFloat buttonTopPosition = titleHeight + bodyHeight+customViewHeight+5;
+                //custom view
+                if (customView) {
+                    customView.frame = CGRectMake(0, CGRectGetMaxY(self.bodyTextLabel.frame), customView.frame.size.width, customView.frame.size.height);
+                    [alertMainView addSubview:customView];
+                }
+                
+                //buttons
+                if (cancelButtonTitle && otherButtonTitle) {
+                    [self.cancelButton setTitle:cancelButtonTitle forState:UIControlStateNormal];
+                    [self.cancelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                     [self.cancelButton setBackgroundColor:[UIColor colorWithRed:215/255.0 green:0/255.0 blue:15/255.0 alpha:1.0]];
+                    [self.cancelButton setTag:0];
+                    [self.cancelButton setFrame:CGRectMake(ButtonSpace, buttonTopPosition, ButtonSureWidth, buttonPartHeight)];
+                    self.cancelButton.layer.cornerRadius = 4.0;
+                    [self.otherButton setBackgroundColor:[UIColor colorWithRed:215/255.0 green:0/255.0 blue:15/255.0 alpha:1.0]];
+                    self.otherButton.layer.cornerRadius = 4.0;
+                    [self.otherButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                    [self.otherButton setTitle:otherButtonTitle forState:UIControlStateNormal];
+                    [self.otherButton setTag:1];
+                    [self.otherButton setFrame:CGRectMake(CGRectGetMaxX(self.cancelButton.frame) + ButtonSpace, buttonTopPosition, ButtonSureWidth, buttonPartHeight)];
+                    [alertMainView addSubview:self.cancelButton];
+                    [alertMainView addSubview:self.otherButton];
+                }else if (cancelButtonTitle){
+                    [self.cancelButton setBackgroundColor:[UIColor colorWithRed:215/255.0 green:0/255.0 blue:15/255.0 alpha:1.0]];
+                    [self.cancelButton setTitle:cancelButtonTitle?cancelButtonTitle:otherButtonTitle forState:UIControlStateNormal];
+                    [self.cancelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                    [self.cancelButton setFrame:CGRectMake(OneButtonSpace, buttonTopPosition, OneButtonWidth, buttonPartHeight)];
+                    [self.cancelButton setTag:0];
+                   self.cancelButton.layer.cornerRadius = 4.0;
+                    [alertMainView addSubview:self.cancelButton];
+                }else if (otherButtonTitle){
+                    [self.otherButton setBackgroundColor:[UIColor colorWithRed:215/255.0 green:0/255.0 blue:15/255.0 alpha:1.0]];
+                    [self.otherButton setTitle:cancelButtonTitle?cancelButtonTitle:otherButtonTitle forState:UIControlStateNormal];
+                    [self.otherButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                    [self.otherButton setFrame:CGRectMake(OneButtonSpace, buttonTopPosition, OneButtonWidth, buttonPartHeight)];
+                    [self.otherButton setTag:0];
+                    self.otherButton.layer.cornerRadius = 4.0;
+                    [alertMainView addSubview:self.otherButton];
+                }
+            }
+            return self;
+            break;
         }
         case ZYZAlertViewStyleSmartCar:
         {
@@ -470,10 +585,6 @@ static UIWindow *gMaskWindow = nil;
                 }
                 
                 CGFloat buttonTopPosition = titleHeight + bodyHeight+customViewHeight+5;
-                UIView *lineView = [[UIView alloc]initWithFrame:CGRectMake(0, buttonTopPosition - 1, kContentLabelWidth, 1)];
-                lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:227/255.0 blue:227/255.0 alpha:1.0];
-                [alertMainView addSubview:lineView];
-                
                 //custom view
                 if (customView) {
                     customView.frame = CGRectMake(0, 0, customView.frame.size.width, customView.frame.size.height);

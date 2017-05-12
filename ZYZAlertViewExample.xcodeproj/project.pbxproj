@@ -19,6 +19,7 @@
 		930EC9711E4C4DD700097E71 /* ZYZAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 930EC96A1E4C4DD700097E71 /* ZYZAlertView.m */; };
 		930EC9781E4C689500097E71 /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = 930EC9771E4C689500097E71 /* close.png */; };
 		930EC97B1E4D4B4300097E71 /* ZYZToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 930EC97A1E4D4B4300097E71 /* ZYZToastView.m */; };
+		9346B46E1EC46E1D0004F9A6 /* CustomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9346B46D1EC46E1D0004F9A6 /* CustomView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		930EC9771E4C689500097E71 /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close.png; sourceTree = "<group>"; };
 		930EC9791E4D4B4300097E71 /* ZYZToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYZToastView.h; sourceTree = "<group>"; };
 		930EC97A1E4D4B4300097E71 /* ZYZToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYZToastView.m; sourceTree = "<group>"; };
+		9346B46D1EC46E1D0004F9A6 /* CustomView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 				930EC9361E4C4BD200097E71 /* ViewController.h */,
 				930EC9371E4C4BD200097E71 /* ViewController.m */,
 				930EC9391E4C4BD200097E71 /* Main.storyboard */,
+				9346B46D1EC46E1D0004F9A6 /* CustomView.xib */,
 				930EC93C1E4C4BD200097E71 /* Assets.xcassets */,
 				930EC93E1E4C4BD200097E71 /* LaunchScreen.storyboard */,
 				930EC9411E4C4BD200097E71 /* Info.plist */,
@@ -284,6 +287,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				930EC9401E4C4BD200097E71 /* LaunchScreen.storyboard in Resources */,
+				9346B46E1EC46E1D0004F9A6 /* CustomView.xib in Resources */,
 				930EC93D1E4C4BD200097E71 /* Assets.xcassets in Resources */,
 				930EC9781E4C689500097E71 /* close.png in Resources */,
 				930EC93B1E4C4BD200097E71 /* Main.storyboard in Resources */,
