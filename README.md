@@ -1,0 +1,2 @@
+# ZYZAlertView
+仿BBABBAlertview 有两种样式,一种类似系统AlertView交互模式,一种类似Android的toast模式.类似系统模式具体有两种样式,待丰富
